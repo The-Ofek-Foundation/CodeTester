@@ -13,6 +13,22 @@ import java.util.ArrayList;
 
 public abstract class CodeTester {
 
+	/**
+	 * Prevent this class from running with assertions disabled.
+	 *
+	 * If assertions are disabled, then a RuntimeException will be
+	 * thrown upon class loading.
+	 */
+	static {
+		boolean hasAssertEnabled = false;
+		assert hasAssertEnabled = true; // rare - an intentional side effect!
+		if (!hasAssertEnabled) {
+			System.out.println();
+			throw new RuntimeException("Asserts must be enabled to test "
+				+ "code. Please run with -ea, ex: java -ea <class name>");
+		}
+	}
+
 	public static final String TEST_METHOD_PREFIX = "_test";
 	private int testsOk, testsFail, testsSkipped, testsTotal;
 	private List<CodeError> codeErrors;
@@ -27,7 +43,7 @@ public abstract class CodeTester {
 	@Inherited
 	@interface SkipTest {}
 
-	private void runTest(CodeTester childTester, Method testMethod) {
+	private void runTest(Method testMethod) {
 		String methodName = parseMethodName(testMethod.getName());
 		System.out.printf("%-50s --> ", methodName);
 
@@ -38,7 +54,7 @@ public abstract class CodeTester {
 		}
 
 		try {
-			testMethod.invoke(childTester);
+			testMethod.invoke(this);
 			System.out.println("ok");
 			testsOk++;
 		} catch (InvocationTargetException | IllegalAccessException ie) {
@@ -76,13 +92,13 @@ public abstract class CodeTester {
 		System.out.println();
 	}
 
-	public final void runTests(CodeTester childTester) {
+	public final void runTests() {
 		System.out.printf("\nRunning tests:\n\n");
-		Class c = childTester.getClass();
+		Class c = getClass();
 		double startTime = System.nanoTime();
 		for (Method method : c.getDeclaredMethods())
 			if (isTestMethod(method))
-				runTest(childTester, method);
+				runTest(method);
 		printSummary((System.nanoTime() - startTime) / 1E9);
 	}
 
