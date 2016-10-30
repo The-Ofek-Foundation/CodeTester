@@ -11,8 +11,16 @@ public class SampleTester extends CodeTester {
 		assert 1 == 2 : "This test should have been skipped!";
 	}
 
-	public void _testStringAssertion() {
-		assertEqual("hello", "goodbye", true);
+	private void stringAssertionHelperMethod(String s1, String s2) {
+		assertEqual(s1, s2, true);
+	}
+
+	public void _testStringAssertionWithIdenticalStrings() {
+		stringAssertionHelperMethod("same str", "same str");
+	}
+
+	public void _testStringAssertionWithDifferentStrings() {
+		stringAssertionHelperMethod("hello", "goodbye");
 	}
 
 	public void _testNullPointerError() {
