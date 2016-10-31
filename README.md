@@ -9,7 +9,7 @@ You can get your code tests running in less than five minutes. When making your 
 public class SampleTester extends CodeTester {
 ```
 <ol start="2">
-	<li>Create your public test methods with descriptive method names starting with "_test". Make sure they have no parameters.</li>
+	<li>Create your public test methods with descriptive method names starting with an underscore ("_"). Make sure they have no parameters.</li>
 </ol>
 
 ```java
@@ -38,7 +38,7 @@ public void _testToSkip() { ... }
 ```
 
 #### What if I want to reuse code in my tests?
-You can always create helper methods for your tests, just make sure not to make their names start with "_test".
+You can always create helper methods for your tests, just make sure not to make their names start with an underscore ("_").
 ```java
 private void testFileDeletionHelper(String fileName) {
 	File testFile = new File(fileName);
@@ -63,7 +63,7 @@ We even provide several helper methods of testing, including assertEqual, which 
 
 #### Sample output:
 Sample output for java -ea SampleTester
-```
+```batch
 Running tests:
 
 Test skip test                                     --> skipped
