@@ -147,7 +147,8 @@ public abstract class CodeTester {
 
 		return methodName.length() > prefixLength + 1 &&
 			methodName.substring(0, prefixLength).equals(TEST_METHOD_PREFIX) &&
-			Modifier.isPublic(method.getModifiers());
+			Modifier.isPublic(method.getModifiers()) &&
+			method.getParameterCount() == 0;
 	}
 
 	/**
